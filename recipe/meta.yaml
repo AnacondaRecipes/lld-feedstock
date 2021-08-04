@@ -27,6 +27,8 @@ requirements:
   host:
     - llvmdev =={{ version }}
     - llvm
+    - libxml2
+    - zlib
   run_constrained:
     - llvm =={{ version }}
 
