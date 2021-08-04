@@ -1,15 +1,16 @@
-{% set version = "11.1.0" %}
-{% set sha256 = "017a788cbe1ecc4a949abf10755870519086d058a2e99f438829aef24f0c66ce" %}
+{% set lversion = "12.0.1" %}
+{% set version = "12.0.0" %}
+{% set sha256 = "129cb25cd13677aad951ce5c2deb0fe4afc1e9d98950f53b51bdcfb5a73afa0e" %}
 
 package:
   name: lld
   version: {{ version }}
 
 source:
-  url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/lld-{{ version.replace(".rc", "rc") }}.src.tar.xz
+  url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ lversion.replace(".rc", "-rc") }}/llvm-project-{{ lversion.replace(".rc", "rc") }}.src.tar.xz
   sha256: {{ sha256 }}
-  patches:
-    - cmake.diff
+  # patches:
+  #   - cmake.diff
 
 build:
   number: 0
@@ -22,7 +23,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - make     # [not win]
-    - llvmdev =={{ version }}    # [build_platform != target_platform]
   host:
     - llvmdev =={{ version }}
     - llvm
@@ -43,3 +43,4 @@ about:
 extra:
   recipe-maintainers:
     - isuruf
+    - katietz
