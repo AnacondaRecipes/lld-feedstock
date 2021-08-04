@@ -9,8 +9,9 @@ package:
 source:
   url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ lversion.replace(".rc", "-rc") }}/llvm-project-{{ lversion.replace(".rc", "rc") }}.src.tar.xz
   sha256: {{ sha256 }}
-  # patches:
-  #   - cmake.diff
+  patches:
+    - patches/0001-Set-LLVM-directories.patch
+    - patches/0002-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
   number: 0
@@ -37,7 +38,7 @@ test:
 about:
   home: http://llvm.org/
   license: NCSA
-  license_file: LICENSE.TXT
+  license_file: lld/LICENSE.TXT
   summary: The LLVM Linker
 
 extra:
