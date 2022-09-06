@@ -14,7 +14,8 @@ build:
   number: 0
   skip: True  # [win and vc<14]
   skip: Truea # [linux and s390x]
-
+  ignore_run_exports: # [not win]
+    - libxml2         # [not win]
 requirements:
   build:
     - cmake >=3.4.3
@@ -29,6 +30,7 @@ requirements:
     - llvm
     - libxml2
     - zlib
+    - libcxx  # [osx]
   run_constrained:
     - llvm =={{ version }}
 
