@@ -13,7 +13,7 @@ source:
 build:
   number: 0
   skip: True  # [win and vc<14]
-  skip: Truea # [linux and s390x]
+  skip: True  # [linux and s390x]
   ignore_run_exports: # [not win]
     - libxml2         # [not win]
 requirements:
