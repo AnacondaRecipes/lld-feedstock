@@ -11,26 +11,26 @@ source:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win and vc<14]
   skip: True  # [linux and s390x]
   ignore_run_exports: # [not win]
     - libxml2         # [not win]
 requirements:
   build:
-    - cmake >=3.4.3
-    - ninja    # [win]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - make     # [not win]
-    - patch       # [not win]
+    - cmake >=3.4.3
     - m2-patch    # [win]
+    - make     # [not win]
+    - ninja    # [win]
+    - patch       # [not win]
   host:
-    - llvmdev =={{ version }}
-    - llvm
-    - libxml2
-    - zlib
     - libcxx  # [osx]
+    - libxml2 2.10
+    - llvm
+    - llvmdev =={{ version }}
+    - zlib
   run:
     - libcxx  # [osx]
   run_constrained:
@@ -47,6 +47,9 @@ about:
   license_family: Apache
   license_file: lld/LICENSE.TXT
   summary: The LLVM Linker
+  description: |
+    LLD is a linker from the LLVM project that is a drop-in replacement for system linkers and runs much faster than them. It also provides features that are useful for toolchain developers.
+    The linker supports ELF (Unix), PE/COFF (Windows), Mach-O (macOS) and WebAssembly in descending order of completeness. Internally, LLD consists of several different linkers. The ELF port is the one that will be described in this document. The PE/COFF port is complete, including Windows debug info (PDB) support. The WebAssembly port is still a work in progress
   dev_url: https://github.com/llvm/llvm-project/
   doc_url: https://github.com/llvm/llvm-project/
 
