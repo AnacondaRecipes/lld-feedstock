@@ -1,0 +1,5 @@
+channels:
+ dp_test: libxml2_buildout
+build_parameters:
+  - "--suppress-variables"
+  - "--error-overlinking"
