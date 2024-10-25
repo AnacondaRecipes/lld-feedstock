@@ -30,8 +30,9 @@ requirements:
     - llvm {{ version }}
     - llvmdev {{ version }}
     - zlib {{ zlib }}
+    - zstd {{ zstd }}
   run:
-    - libcxx  # [osx]
+    - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
   run_constrained:
     - llvm =={{ version }}
 

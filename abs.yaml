@@ -1,1 +1,2 @@
-aggregate_branch: libxml_2.13.1
+channels:
+  - https://staging.continuum.io/prefect/fs/clangdev-feedstock/pr4/b5c20c8
