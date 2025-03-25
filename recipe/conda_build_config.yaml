@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 c_compiler:
   - clang_bootstrap  # [osx]
   - gcc              # [linux]
@@ -12,3 +13,9 @@ c_compiler_version:     # [osx]
   - "*"                 # [osx]
 cxx_compiler_version:   # [osx]
   - "*"                 # [osx]
+=======
+c_compiler:             # [osx]
+  - clang_bootstrap     # [osx]
+cxx_compiler:           # [osx]
+  - clang_bootstrap     # [osx]
+>>>>>>> forge/17.x
