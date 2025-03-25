@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-{% set version = "14.0.6" %}
-=======
 {% set version = "17.0.6" %}
->>>>>>> forge/17.x
 
 package:
   name: lld
@@ -10,46 +6,22 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-<<<<<<< HEAD
-  sha256: 8b3cfd7bc695bd6cea0f37f53f0981f34f87496e79e2529874fd03a2f9dd3a8a
-=======
   sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
->>>>>>> forge/17.x
   patches:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-<<<<<<< HEAD
-  number: 2
-  skip: True  # [(win and vc<14) or (linux and s390x)]
-  ignore_run_exports: # [not win]
-    - libxml2         # [not win]
-=======
-  number: 1
+  number: 0
+  skip: True  # [linux and s390x]
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
 
->>>>>>> forge/17.x
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-<<<<<<< HEAD
-    - m2-patch    # [win]
-    - make        # [not win]
-    - ninja       # [win]
-    - patch       # [not win]
-  host:
-    - libcxx {{ version }}  # [osx]
-    - libxml2 {{ libxml2 }}
-    - llvm {{ version }}
-    - llvmdev {{ version }}
-    - zlib {{ zlib }}
-  run:
-    - libcxx  # [osx]
-=======
     - ninja
     - llvmdev =={{ version }}              # [build_platform != target_platform]
   host:
@@ -63,7 +35,6 @@ requirements:
     - zstd
   run:
     - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
->>>>>>> forge/17.x
   run_constrained:
     - llvm =={{ version }}
 
@@ -75,26 +46,11 @@ test:
 about:
   home: https://lld.llvm.org/
   license: Apache-2.0 WITH LLVM-exception
-<<<<<<< HEAD
-  license_family: Apache
-  license_file: lld/LICENSE.TXT
-  summary: The LLVM Linker
-  description: |
-    LLD is a linker from the LLVM project that is a drop-in replacement for system linkers and runs much faster than them. It also provides features that are useful for toolchain developers.
-    The linker supports ELF (Unix), PE/COFF (Windows), Mach-O (macOS) and WebAssembly in descending order of completeness. Internally, LLD consists of several different linkers. The ELF port is the one that will be described in this document. The PE/COFF port is complete, including Windows debug info (PDB) support. The WebAssembly port is still a work in progress
-  dev_url: https://github.com/llvm/llvm-project/
-  doc_url: https://github.com/llvm/llvm-project/
-=======
   license_file: lld/LICENSE.TXT
   summary: The LLVM Linker
   dev_url: https://github.com/llvm/llvm-project/
->>>>>>> forge/17.x
 
 extra:
   recipe-maintainers:
     - isuruf
-<<<<<<< HEAD
-    - katietz
-=======
->>>>>>> forge/17.x
     - h-vetinari
