@@ -30,25 +30,31 @@ requirements:
     - llvm
     # these they are present in the host env anyway as run-deps of llvm
     # and will be picked up for the build by the default settings
-    - libxml2
-    - zlib
-    - zstd
+    - libxml2       {{ libxml2 }}
+    - zlib          {{ zlib }}
+    - zstd          {{ zstd }}
   run:
     - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
   run_constrained:
     - llvm =={{ version }}
-
-test:
-  commands:
-    - ld.lld --version  # [linux]
-    - lld-link /?       # [win]
+  test:
+    commands:
+      - ld.lld --version  # [unix]
+      - lld-link /?       # [win]
 
 about:
   home: https://lld.llvm.org/
   license: Apache-2.0 WITH LLVM-exception
   license_file: lld/LICENSE.TXT
+  license_family: Apache
   summary: The LLVM Linker
   dev_url: https://github.com/llvm/llvm-project/
+  doc_url: https://llvm.org/docs/
+  description: |
+    LLD is a linker from the LLVM project that is a drop-in 
+    replacement for system linkers and runs much faster than 
+    them. It also provides features that are useful for 
+    toolchain developers.
 
 extra:
   recipe-maintainers:
