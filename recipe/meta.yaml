@@ -24,6 +24,8 @@ requirements:
     - cmake
     - ninja
     - llvmdev =={{ version }}              # [build_platform != target_platform]
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
     - llvmdev =={{ version }}
@@ -57,6 +59,10 @@ about:
     toolchain developers.
 
 extra:
+  skip-lints:
+    # false positives, and a bit of a special case.
+    - missing_tests
+    - should_use_compilers
   recipe-maintainers:
     - isuruf
     - h-vetinari
