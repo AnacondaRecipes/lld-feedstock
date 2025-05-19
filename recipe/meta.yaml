@@ -28,8 +28,7 @@ requirements:
     - m2-patch    # [win]
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
-    - llvmdev =={{ version }}
-    - llvm
+    - llvmdev {{ version }}
     # these they are present in the host env anyway as run-deps of llvm
     # and will be picked up for the build by the default settings
     - libxml2       {{ libxml2 }}
