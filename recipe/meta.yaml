@@ -13,7 +13,6 @@ source:
 
 build:
   number: 0
-  skip: True  # [linux and s390x]
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
