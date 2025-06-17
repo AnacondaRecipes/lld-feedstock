@@ -1,4 +1,5 @@
-{% set version = "14.0.6" %}
+{% set version = "17.0.6" %}
+{% set major_version = version.split(".")[0] %}
 
 package:
   name: lld
@@ -6,54 +7,62 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-  sha256: 8b3cfd7bc695bd6cea0f37f53f0981f34f87496e79e2529874fd03a2f9dd3a8a
+  sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
   patches:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 2
-  skip: True  # [(win and vc<14) or (linux and s390x)]
-  ignore_run_exports: # [not win]
-    - libxml2         # [not win]
+  number: 0
+  ignore_run_exports_from:
+    # not actually needed on unix
+    - libxml2  # [unix]
+
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - m2-patch    # [win]
-    - make        # [not win]
-    - ninja       # [win]
+    - ninja
+    - llvmdev =={{ version }}              # [build_platform != target_platform]
     - patch       # [not win]
+    - m2-patch    # [win]
   host:
-    - libcxx {{ version }}  # [osx]
-    - libxml2 {{ libxml2 }}
-    - llvm {{ version }}
+    - libcxx {{ cxx_compiler_version }}    # [osx]
     - llvmdev {{ version }}
-    - zlib {{ zlib }}
+    # these they are present in the host env anyway as run-deps of llvm
+    # and will be picked up for the build by the default settings
+    - libxml2       {{ libxml2 }}
+    - zlib          {{ zlib }}
+    - zstd          {{ zstd }}
   run:
-    - libcxx  # [osx]
+    - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
+    - libllvm{{ major_version }} {{ version }}
   run_constrained:
     - llvm =={{ version }}
-
-test:
-  commands:
-    - ld.lld --version  # [linux]
-    - lld-link /?       # [win]
+  test:
+    commands:
+      - ld.lld --version  # [unix]
+      - lld-link /?       # [win]
 
 about:
   home: https://lld.llvm.org/
   license: Apache-2.0 WITH LLVM-exception
-  license_family: Apache
   license_file: lld/LICENSE.TXT
+  license_family: Apache
   summary: The LLVM Linker
-  description: |
-    LLD is a linker from the LLVM project that is a drop-in replacement for system linkers and runs much faster than them. It also provides features that are useful for toolchain developers.
-    The linker supports ELF (Unix), PE/COFF (Windows), Mach-O (macOS) and WebAssembly in descending order of completeness. Internally, LLD consists of several different linkers. The ELF port is the one that will be described in this document. The PE/COFF port is complete, including Windows debug info (PDB) support. The WebAssembly port is still a work in progress
   dev_url: https://github.com/llvm/llvm-project/
-  doc_url: https://github.com/llvm/llvm-project/
+  doc_url: https://llvm.org/docs/
+  description: |
+    LLD is a linker from the LLVM project that is a drop-in 
+    replacement for system linkers and runs much faster than 
+    them. It also provides features that are useful for 
+    toolchain developers.
 
 extra:
+  skip-lints:
+    # false positives, and a bit of a special case.
+    - missing_tests
+    - should_use_compilers
   recipe-maintainers:
     - isuruf
-    - katietz
     - h-vetinari
