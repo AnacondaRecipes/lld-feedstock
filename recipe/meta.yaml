@@ -36,7 +36,6 @@ requirements:
     - libllvm{{ major_version }} {{ version }}
   run:
     - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
-    - libllvm{{ major_version }} {{ version }}
   run_constrained:
     - llvm =={{ version }}
 test:
