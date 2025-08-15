@@ -1,4 +1,4 @@
-{% set version = "17.0.6" %}
+{% set version = "19.1.7" %}
 {% set major_version = version.split(".")[0] %}
 
 package:
@@ -6,13 +6,13 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version.replace(".rc", "-rc") }}/llvm-project-{{ version.replace(".rc", "rc") }}.src.tar.xz
-  sha256: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+  url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
+  sha256: 59abea1c22e64933fad4de1671a61cdb934098793c7a31b333ff58dc41bff36c
   patches:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
@@ -20,12 +20,11 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake
     - ninja
     - llvmdev =={{ version }}              # [build_platform != target_platform]
-    - patch       # [not win]
-    - m2-patch    # [win]
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
     - llvmdev {{ version }}
@@ -36,13 +35,12 @@ requirements:
     - zstd          {{ zstd }}
   run:
     - {{ pin_compatible("libcxx", max_pin=None) }}  # [osx]
-    - libllvm{{ major_version }} {{ version }}
   run_constrained:
     - llvm =={{ version }}
-  test:
-    commands:
-      - ld.lld --version  # [unix]
-      - lld-link /?       # [win]
+test:
+  commands:
+    - ld.lld --version  # [unix]
+    - lld-link /?       # [win]
 
 about:
   home: https://lld.llvm.org/
@@ -61,7 +59,6 @@ about:
 extra:
   skip-lints:
     # false positives, and a bit of a special case.
-    - missing_tests
     - should_use_compilers
   recipe-maintainers:
     - isuruf
