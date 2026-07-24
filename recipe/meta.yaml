@@ -12,7 +12,7 @@ source:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
@@ -24,7 +24,6 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - ninja
-    - llvmdev =={{ version }}              # [build_platform != target_platform]
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
     - llvmdev {{ version }}
