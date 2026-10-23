@@ -26,6 +26,8 @@ requirements:
     - ninja-base
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
+    # libc++.dylib link name; without it the link falls back to the SDK's /usr/lib/libc++
+    - libcxx-devel {{ cxx_compiler_version }}  # [osx]
     - llvmdev {{ version }}
     # these they are present in the host env anyway as run-deps of llvm
     # and will be picked up for the build by the default settings
@@ -37,9 +39,14 @@ requirements:
   run_constrained:
     - llvm =={{ version }}
 test:
+  requires:
+    - cctools  # [osx]
   commands:
     - ld.lld --version  # [unix]
     - lld-link /?       # [win]
+    # lld must use conda's libc++ (as libLLVM does), never the system one
+    - otool -L $PREFIX/bin/lld | grep -q "@rpath/libc++.1.dylib"  # [osx]
+    - test $(otool -L $PREFIX/bin/lld | grep -c "/usr/lib/libc++") -eq 0  # [osx]
 
 about:
   home: https://lld.llvm.org/
