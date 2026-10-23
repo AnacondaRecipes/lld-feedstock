@@ -8,7 +8,7 @@ Subject: [PATCH] point header inclusion in lld/MachO/CMakeLists.txt to SRC_DIR
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lld/MachO/CMakeLists.txt b/lld/MachO/CMakeLists.txt
-index ecf6ce609e59..a9d60edb19c4 100644
+index 72631f11511b..e91701702eb4 100644
 --- a/lld/MachO/CMakeLists.txt
 +++ b/lld/MachO/CMakeLists.txt
 @@ -2,7 +2,7 @@ set(LLVM_TARGET_DEFINITIONS Options.td)

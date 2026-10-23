@@ -1,4 +1,4 @@
-{% set version = "22.1.2" %}
+{% set version = "23.1.4" %}
 {% set major_version = version.split(".")[0] %}
 
 package:
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  sha256: a252efd7a4a268d2cc5145b17adcaa82757fdee1d06d748b4c24137807710ecb
+  sha256: 3e1c70b30f623976c2046d94b8eeab6cac536f107914cb4ed7bac572a03131db
   patches:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 2
+  number: 0
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
@@ -20,10 +20,10 @@ build:
 requirements:
   build:
     - {{ stdlib("c") }}
-    - {{ compiler('c') }}    
+    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - ninja
+    - ninja-base
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
     - llvmdev {{ version }}
