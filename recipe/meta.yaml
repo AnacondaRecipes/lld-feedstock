@@ -47,7 +47,7 @@ about:
   license_file: lld/LICENSE.TXT
   license_family: Apache
   summary: The LLVM Linker
-  dev_url: https://github.com/llvm/llvm-project/
+  dev_url: https://github.com/llvm/llvm-project
   doc_url: https://llvm.org/docs/
   description: |
     LLD is a linker from the LLVM project that is a drop-in 
@@ -57,7 +57,7 @@ about:
 
 extra:
   skip-lints:
-    # false positives, and a bit of a special case.
+    # llvm in run_constrained is a compatibility constraint, not a requested compiler
     - should_use_compilers
   recipe-maintainers:
     - isuruf
