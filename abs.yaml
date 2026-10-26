@@ -1,4 +1,0 @@
-# PR CI only - clang_bootstrap 23.1.4 from AnacondaRecipes/clang-compiler-activation-feedstock#29 (graph of head 3f81cca);
-# REMOVE before merge (lld builds on macOS with clang_bootstrap 23.1.4, which is not on pkgs/main yet)
-channels:
-  - https://package-build.internal.anaconda.com/pkg-orchestrator/v1/channels/graphs/f456a7b3-c370-4571-9cb3-a4dc4411f773
