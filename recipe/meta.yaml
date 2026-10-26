@@ -1,4 +1,4 @@
-{% set version = "22.1.2" %}
+{% set version = "23.1.4" %}
 {% set major_version = version.split(".")[0] %}
 
 package:
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  sha256: a252efd7a4a268d2cc5145b17adcaa82757fdee1d06d748b4c24137807710ecb
+  sha256: 3e1c70b30f623976c2046d94b8eeab6cac536f107914cb4ed7bac572a03131db
   patches:
     - patches/0001-point-header-inclusion-in-lld-MachO-CMakeLists.txt-t.patch
 
 build:
-  number: 2
+  number: 0
   ignore_run_exports_from:
     # not actually needed on unix
     - libxml2  # [unix]
@@ -20,12 +20,14 @@ build:
 requirements:
   build:
     - {{ stdlib("c") }}
-    - {{ compiler('c') }}    
+    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - ninja
+    - ninja-base
   host:
     - libcxx {{ cxx_compiler_version }}    # [osx]
+    # libc++.dylib link name; without it the link falls back to the SDK's /usr/lib/libc++
+    - libcxx-devel {{ cxx_compiler_version }}  # [osx]
     - llvmdev {{ version }}
     # these they are present in the host env anyway as run-deps of llvm
     # and will be picked up for the build by the default settings
@@ -37,9 +39,14 @@ requirements:
   run_constrained:
     - llvm =={{ version }}
 test:
+  requires:
+    - cctools  # [osx]
   commands:
     - ld.lld --version  # [unix]
     - lld-link /?       # [win]
+    # lld must use conda's libc++ (as libLLVM does), never the system one
+    - otool -L $PREFIX/bin/lld | grep -q "@rpath/libc++.1.dylib"  # [osx]
+    - test $(otool -L $PREFIX/bin/lld | grep -c "/usr/lib/libc++") -eq 0  # [osx]
 
 about:
   home: https://lld.llvm.org/
@@ -47,7 +54,7 @@ about:
   license_file: lld/LICENSE.TXT
   license_family: Apache
   summary: The LLVM Linker
-  dev_url: https://github.com/llvm/llvm-project/
+  dev_url: https://github.com/llvm/llvm-project
   doc_url: https://llvm.org/docs/
   description: |
     LLD is a linker from the LLVM project that is a drop-in 
@@ -57,7 +64,7 @@ about:
 
 extra:
   skip-lints:
-    # false positives, and a bit of a special case.
+    # llvm in run_constrained is a compatibility constraint, not a requested compiler
     - should_use_compilers
   recipe-maintainers:
     - isuruf

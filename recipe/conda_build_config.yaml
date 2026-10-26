@@ -1,22 +1,16 @@
-c_compiler:             # [osx]
+# macOS: clang_bootstrap; Windows: keep consistent with llvmdev and clangdev
+c_compiler:
   - clang_bootstrap     # [osx]
-cxx_compiler:           # [osx]
+  - vs2022              # [win]
+cxx_compiler:
   - clang_bootstrap     # [osx]
+  - vs2022              # [win]
 
-# Build with clang 22 compiler
+# Build with clang 23 compiler (clang_bootstrap 23.1.4 from clang-compiler-activation)
 c_compiler_version:
-  - 22.1.2           # [osx]
+  - 23.1.4           # [osx]
 cxx_compiler_version:
-  - 22.1.2           # [osx]
-
-# Keep consistent with llvmdev and clangdev
-c_compiler:        # [win]
-  - vs2022         # [win]
-cxx_compiler:      # [win]
-  - vs2022         # [win]
-
-c_stdlib_version:  # [win]
-  - 2022.14        # [win]
+  - 23.1.4           # [osx]
 
 libxml2:
   - 2.15.3
